@@ -130,7 +130,7 @@ export class Auth {
     return {
       status: 302,
       headers: {
-        "set-cookie": `svelteauthjwt=${jwt}; Path=/; HttpOnly`,
+        "set-cookie": `svelteauthjwt=${jwt}; Path=/; HttpOnly; SameSite=Lax`,
         Location: redirect,
       },
     };
@@ -146,7 +146,7 @@ export class Auth {
       if (method === "POST") {
         return {
           headers: {
-            "set-cookie": `svelteauthjwt=${jwt}; Path=/; HttpOnly`,
+            "set-cookie": `svelteauthjwt=${jwt}; Path=/; HttpOnly; SameSite=Lax`,
           },
           body: {
             signout: true,
@@ -159,7 +159,7 @@ export class Auth {
       return {
         status: 302,
         headers: {
-          "set-cookie": `svelteauthjwt=${jwt}; Path=/; HttpOnly`,
+          "set-cookie": `svelteauthjwt=${jwt}; Path=/; HttpOnly; SameSite=Lax`,
           Location: redirect,
         },
       };
