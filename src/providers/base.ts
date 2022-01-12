@@ -32,11 +32,6 @@ export abstract class Provider<T extends ProviderConfig = ProviderConfig> {
     svelteKitAuth: Auth,
   ): EndpointOutput | Promise<EndpointOutput>;
 
-  abstract getProviderSigninUri<Locals extends Record<string, any> = Record<string, any>, Body = unknown>(
-    request: ServerRequest<Locals, Body>,
-    svelteKitAuth: Auth,
-  ): Promise<string>;
-
   abstract callback<Locals extends Record<string, any> = Record<string, any>, Body = unknown>(
     request: ServerRequest<Locals, Body>,
     svelteKitAuth: Auth,
