@@ -56,6 +56,14 @@ export abstract class OAuth2BaseProvider<
     };
   }
 
+  async getProviderSigninUri(request: ServerRequest, auth: Auth): Promise<string> {
+    const { method, url } = request;
+    const state = [`redirect=${url.searchParams.get("redirect") ?? this.getUri(auth, "/", url.host)}`].join(",");
+    const base64State = Buffer.from(state).toString("base64");
+    const nonce = Math.round(Math.random() * 1000).toString(); // TODO: Generate random based on user values
+    return await this.getAuthorizationUrl(request, auth, base64State, nonce);
+  }
+
   getStateValue(query: URLSearchParams, name: string) {
     if (query.get("state")) {
       const state = Buffer.from(query.get("state")!, "base64").toString();
