@@ -21,7 +21,6 @@ interface AuthConfig {
 interface AuthCallbacks {
   signIn?: () => boolean | Promise<boolean>;
   jwt?: (token: JWT, profile?: any) => JWT | Promise<JWT>;
-  postToken?: (token: JWT) => JWT | Promise<JWT>;
   session?: (token: JWT, session: Session) => Session | Promise<Session>;
   redirect?: (url: string) => string | Promise<string>;
 }
@@ -125,9 +124,6 @@ export class Auth {
       token = await this.config.callbacks.jwt(token, profile);
     } else {
       token = this.setToken(headers, { user: profile });
-      if (this.config?.callbacks?.postToken) {
-        token = await this.config?.callbacks?.postToken(token)
-      }
     }
 
     const jwt = this.signToken(token);
@@ -136,7 +132,7 @@ export class Auth {
     return {
       status: 302,
       headers: {
-        "set-cookie": `svelteauthjwt=${jwt}; Path=/; HttpOnly; SameSite=Strict`,
+        "set-cookie": `svelteauthjwt=${jwt}; Path=/; HttpOnly; SameSite=Lax`,
         Location: redirect,
       },
     };
